@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "motion/react";
-import { FeatureBentoGrid } from "./_components/FeatureBentoGrid";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function HeroSectionOne() {
   return (
@@ -56,76 +56,55 @@ export default function HeroSectionOne() {
           health guidance, and effortless appointment scheduling—all in one
           seamless experience.
         </motion.p>
-        <Link href={'/sign-in'}>
-        <motion.div
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.3,
-            delay: 1,
-          }}
-          className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
-        >
-          
-          <button className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-            Get Started
-          </button>
-         
-        </motion.div>
-         </Link>
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 10,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.3,
-            delay: 1.2,
-          }}
-          className="relative z-10 mt-20 rounded-3xl border border-neutral-200 bg-neutral-100 p-4 shadow-md dark:border-neutral-800 dark:bg-neutral-900"
-        >
-          <div className="w-full overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700">
-            <img
-              src="https://assets.aceternity.com/pro/aceternity-landing.webp"
-              alt="Landing page preview"
-              className="aspect-[16/9] h-auto w-full object-cover"
-              height={1000}
-              width={1000}
-            />
-          </div>
-        </motion.div>
+        <Link href={"/sign-in"}>
+          <motion.div
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.3,
+              delay: 1,
+            }}
+            className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
+          >
+            <Link href={"/dashboard"}>
+              <button className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+                Get Started
+              </button>
+            </Link>
+          </motion.div>
+        </Link>
       </div>
-      <FeatureBentoGrid />
     </div>
   );
 }
 
 const Navbar = () => {
-  const {user}=useUser()
+  const { user } = useUser();
   return (
-    <nav className="flex w-full items-center justify-between border-t border-b border-neutral-200 px-4 py-4 dark:border-neutral-800">
+    <nav className="flex w-full items-center justify-between border-t border-b border-neutral-200 p-4 px-40 dark:border-neutral-800">
       <div className="flex items-center gap-2">
-        <div className="size-7 rounded-full bg-gradient-to-br from-violet-500 to-pink-500" />
-        <h1 className="text-base font-bold md:text-2xl">Aceternity UI</h1>
+        <Image src={"/logo2.svg"} alt="logo" width={50} height={10} />
+
+        <h1 className="text-base font-bold md:text-2xl">MedGenie</h1>
       </div>
-      {!user ?
-      <Link href={'/sign-in'}>
-      <button className="w-24 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 md:w-32 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-        Login
-      </button> </Link> :
-      <div className="flex gap-5 items-center">
-        <Button>Dashboard</Button>
-        <UserButton />
-      </div>
-}
+      {!user ? (
+        <Link href={"/sign-in"}>
+          <button className="w-24 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 md:w-32 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+            Login
+          </button>{" "}
+        </Link>
+      ) : (
+        <div className="flex gap-5 items-center">
+          <Link href={"/dashboard"}>
+            <Button>Dashboard</Button>
+          </Link>
+          <UserButton />
+        </div>
+      )}
     </nav>
   );
 };
