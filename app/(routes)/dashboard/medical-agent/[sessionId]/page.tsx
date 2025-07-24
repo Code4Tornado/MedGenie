@@ -11,11 +11,18 @@ import { toast } from "sonner";
 
 export type SessionDetail = {
   id: number;
+  userName: string;
+  chiefComplaint: string;
+  age: number;
   notes: string;
   sessionId: string;
   report: JSON;
   selectedDoctor: doctorAgent;
   createdOn: string;
+  symptoms: string;
+  medications: string;
+  recommendations: string;
+  
 };
 
 type messages = {
