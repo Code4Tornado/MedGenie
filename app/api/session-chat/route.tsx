@@ -33,24 +33,55 @@ export async function GET(req: NextRequest) {
   const sessionId = searchParams.get("sessionId");
   const user = await currentUser();
 
-  if (sessionId == "all") {
-    const result = await db
-      .select()
-      .from(SessionChatTable)
-      //@ts-ignore
-      .where(
-        eq(SessionChatTable.createdBy, user?.primaryEmailAddress?.emailAddress)
-      )
-      .orderBy(desc(SessionChatTable.id));
 
-    return NextResponse.json(result);
-  } else {
-    const result = await db
-      .select()
-      .from(SessionChatTable)
-      //@ts-ignore
-      .where(eq(SessionChatTable.sessionId, sessionId));
-
-    return NextResponse.json(result[0]);
+ if (sessionId === "all") {
+  const email = user?.primaryEmailAddress?.emailAddress;
+  if (!email) {
+    return NextResponse.json([]);
   }
+
+  // Use column directly without alias()
+  const result = await db
+    .select()
+    .from(SessionChatTable)
+    .where(eq(SessionChatTable.createdBy, email))  // no alias() necessary
+    .orderBy(desc(SessionChatTable.id));
+
+  return NextResponse.json(result);
+} else {
+  if (!sessionId) {
+    return NextResponse.json([]);
+  }
+
+  const result = await db
+    .select()
+    .from(SessionChatTable)
+    .where(eq(SessionChatTable.sessionId, sessionId))  // no alias() necessary
+    .orderBy(desc(SessionChatTable.id));  // consider adding orderBy for consistency
+
+  return NextResponse.json(result[0]);
+}
+
+
+
+  // if (sessionId == "all") {
+  //   const result = await db
+  //     .select()
+  //     .from(SessionChatTable)
+  //     //@ts-ignore
+  //     .where(
+  //       eq(SessionChatTable.createdBy, user?.primaryEmailAddress?.emailAddress)
+  //     )
+  //     .orderBy(desc(SessionChatTable.id));
+
+  //   return NextResponse.json(result);
+  // } else {
+  //   const result = await db
+  //     .select()
+  //     .from(SessionChatTable)
+  //     //@ts-ignore
+  //     .where(eq(SessionChatTable.sessionId, sessionId));
+
+  //   return NextResponse.json(result[0]);
+  // }
 }
