@@ -26,7 +26,7 @@ function HistoryTable({ historyList }: Props) {
             <TableHead>AI Medical Specialist</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Date</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead className="text-right px-14">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

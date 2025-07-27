@@ -19,18 +19,22 @@ const menuOptions = [
     name: "Pricing",
     path: "/dashboard/billing",
   },
-  
 ];
 
 function Appheader() {
   return (
-    <div className="flex items-center justify-between p-4 shadow px-10 md:px-20 lg:px-40">
-      <Link href={'/'}>
-      <div className="flex items-center gap-2">
-
-      <Image src={"/logo2.svg"} alt="logo" width={50} height={10} />
-      <h1 className="text-base font-bold md:text-2xl">MedGenie</h1>
-      </div>
+    <div className="flex w-full items-center justify-between border-t border-b border-neutral-200 dark:border-neutral-800 p-2 px-4 md:px-12 lg:px-40">
+      <Link href={"/"}>
+        <div className="flex items-center gap-2 md:gap-4">
+          <Image
+            src={"/logo2.svg"}
+            alt="logo"
+            width={40}
+            height={40}
+            className="w-8 h-8 md:w-12 md:h-12"
+          />
+          <h1 className="text-sm md:text-xl lg:text-2xl font-bold">MedGenie</h1>
+        </div>
       </Link>
 
       <div className="hidden md:flex gap-12 items-center">
