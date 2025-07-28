@@ -1,5 +1,4 @@
-
-
+"use client";
 import React from "react";
 
 import {
@@ -14,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { SessionDetail } from "../medical-agent/[sessionId]/page";
 import moment from "moment";
 
+
 type props = {
   record: SessionDetail;
 };
@@ -22,7 +22,6 @@ function ViewReportDialog({ record }: props) {
   const report: any = record?.report;
 
   const formatDate = moment(record?.createdOn).format("MMMM Do YYYY, h:mm a");
-
 
   const renderSymptoms = (symptoms: string | string[] | undefined) => {
     if (Array.isArray(symptoms)) {
@@ -95,13 +94,16 @@ function ViewReportDialog({ record }: props) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button variant={"link"} size={"sm"}>
+        <Button
+          variant={"link"}
+          size={"sm"}
+          className=" hover:font-bold cursor-pointer transition-all "
+        >
           View Report
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto bg-white shadow-lg p-6">
-
-        <div>
+      <DialogContent className="max-h-[90vh] overflow-y-auto bg-white shadow-lg p-6 relative">
+        
           <DialogHeader>
             <DialogTitle asChild>
               <h2 className="text-center text-3xl font-bold text-blue-500 mb-6 ">
@@ -226,7 +228,7 @@ function ViewReportDialog({ record }: props) {
               </div>
             </DialogDescription>
           </DialogHeader>
-        </div>
+        
       </DialogContent>
     </Dialog>
   );
