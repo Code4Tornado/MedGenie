@@ -1,8 +1,7 @@
-"use client";
 
-import React, { useRef, useEffect, useState } from "react";
 
-// import html2pdf from "html2pdf.js";
+import React from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { DownloadIcon } from "lucide-react";
 import { SessionDetail } from "../medical-agent/[sessionId]/page";
 import moment from "moment";
 
@@ -25,51 +23,6 @@ function ViewReportDialog({ record }: props) {
 
   const formatDate = moment(record?.createdOn).format("MMMM Do YYYY, h:mm a");
 
-  const reportRef = useRef<HTMLDivElement>(null);
-
-  const [html2pdfModule, setHtml2pdfModule] = useState<any>(null);
-
-  useEffect(() => {
-    import("html2pdf.js")
-      .then((module) => {
-        setHtml2pdfModule(() => module.default);
-        console.log("html2pdf.js module loaded", module.default);
-      })
-      .catch((e) => {
-        console.error("Failed to load html2pdf.js:", e);
-      });
-  }, []);
-
-  const handleDownload = () => {
-    if (!reportRef.current) {
-      alert("Report content not available for download.");
-      return;
-    }
-    if (!html2pdfModule) {
-      alert("PDF generation library not loaded yet.");
-      return;
-    }
-
-    console.log("Generating PDF...");
-    html2pdfModule()
-      .set({
-        margin: [10, 10],
-        filename: `AI_Medical_Report-${formatDate.replace(
-          /[^a-z0-9]/gi,
-          "_"
-        )}.pdf`,
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      })
-      .from(reportRef.current)
-      .save()
-      .then(() => {
-        console.log("PDF generated successfully.");
-      })
-      .catch((error: any) => {
-        console.error("Error generating PDF:", error);
-      });
-  };
 
   const renderSymptoms = (symptoms: string | string[] | undefined) => {
     if (Array.isArray(symptoms)) {
@@ -146,18 +99,9 @@ function ViewReportDialog({ record }: props) {
           View Report
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto bg-white shadow-lg p-6 relative">
-        <button
-          onClick={handleDownload}
-          aria-label="Download PDF"
-          className="fixed z-40 md:absolute bottom-6 right-8 md:bottom-8 md:right-8 rounded-full bg-blue-500 hover:bg-blue-700 text-white shadow-lg p-3 transition focus:outline-none"
-          style={{ boxShadow: "0 4px 12px 0 " }}
-          type="button"
-        >
-          <DownloadIcon className="w-6 h-6" />
-        </button>
+      <DialogContent className="max-h-[90vh] overflow-y-auto bg-white shadow-lg p-6">
 
-        <div ref={reportRef} className="relative bg-white text-black" style={{ backgroundColor:"#ffffff", color:"#000000" }}>
+        <div>
           <DialogHeader>
             <DialogTitle asChild>
               <h2 className="text-center text-3xl font-bold text-blue-500 mb-6 ">
